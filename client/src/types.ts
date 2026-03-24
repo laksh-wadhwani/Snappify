@@ -1,3 +1,5 @@
+import type React from "react";
+
 export interface SectionTitleProps {
     text1: string;
     text2: string;
@@ -60,4 +62,11 @@ export interface SectionProps {
     description: string;
     buttonText: string;
     buttonHref: string;
+}
+
+export interface UploadZoneProps {
+    label: string;
+    file: File | null;
+    onClear: () => void;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
