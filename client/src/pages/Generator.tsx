@@ -131,7 +131,7 @@ const Generator = () => {
           </div>
         </div>
         <div className="flex justify-center mt-10">
-          <button disabled={isGenerating} className="flex gap-2 px-10 py-3 bg-pink-600 hover:bg-pink-700 active:scale-95 transition-all rounded-md disabled:opacity-70 disabled:cursor-not-allowed">
+          <button disabled={isGenerating} className="flex gap-2 px-4 py-3 bg-pink-600 hover:bg-pink-700 active:scale-95 transition-all rounded-md disabled:opacity-70 disabled:cursor-not-allowed">
             {isGenerating? 
             <>
               <Loader2Icon className="size-5 animate-spin"/> Generating....

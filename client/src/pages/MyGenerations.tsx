@@ -1,8 +1,55 @@
+import { useEffect, useState } from "react"
+import { dummyGenerations } from "../assets/assets"
+import { Loader2Icon } from "lucide-react"
+import type { Project } from "../types"
+import ProjectCard from "../components/ProjectCard"
+import { useNavigate } from "react-router-dom"
 
 const MyGenerations = () => {
-  return (
-    <div>MyGenerations</div>
-  )
+  const [generations, setGenerations] = useState<Project[]>([])
+  const [loading, setLoading] = useState(true)
+  const navigate = useNavigate()
+  
+    const fetchMyGenerations = async() => {
+      setTimeout(() => {
+        setGenerations(dummyGenerations)
+        setLoading(false)
+      }, 3000)
+    }
+  
+    useEffect(() => {
+      fetchMyGenerations()
+    },[])
+
+    return loading? (
+      <div className="min-h-screen flex justify-center items-center">
+      <Loader2Icon className="size-7 animate-spin text-pink-400"/>
+    </div>
+    ): (
+      <div className="min-h-screen text-white p-6 md:p-12 my-16">
+      <div className="max-w-6xl mx-auto">
+        <header className="mb-12">
+          <h3 className="text-3xl md:text-4xl font-semibold mb-4">Me Generations</h3>
+          <p className="text-gray-400">See what others are creating with snappify</p>
+        </header>
+
+        {/* Generation List */}
+        <div className="columns-1 sm:columns-2 lg:columns-3 gap-4">
+          {generations.map(gen => (
+            <ProjectCard key={gen.id} gen={gen} setGeneration={setGenerations} forCommunity={false}/>
+          ))}
+        </div>
+
+        {generations.length === 0 && (
+          <div className="text-center py-20 bg-white/5 rounded-xl border border-white/10">
+            <h3 className="text-xl font-medium mb-2">No generations yet</h3>
+            <p className="text-gray-400 mb-6">Start creating stunning product photos today</p>
+            <button onClick={() => navigate("/generate")}>Create New Generatation</button>
+          </div>
+        )}
+      </div>
+    </div>
+    )
 }
 
 export default MyGenerations

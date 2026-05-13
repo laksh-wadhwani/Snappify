@@ -5,6 +5,10 @@
     --font-poppins: "Poppins", sans-serif;
 }
 
+.glass-panel {
+    @apply bg-gray-200/10 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm border border-gray-100/30;
+}
+
 body {
     @apply bg-black text-white text-sm antialiased font-poppins;
 }
