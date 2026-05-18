@@ -1,12 +1,17 @@
-import { MenuIcon, XIcon } from "lucide-react";
+import { DollarSignIcon, FolderEditIcon, GalleryHorizontalEnd, MenuIcon, SparkleIcon, XIcon } from "lucide-react";
 import { useState } from "react";
 import { motion } from "motion/react";
 import { navlinks } from "../data/navlinks";
 import type { INavLink } from "../types";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useClerk, useUser, UserButton } from "@clerk/react";
 
 export default function Navbar() {
+
+    const naviagte = useNavigate()
     const [isOpen, setIsOpen] = useState(false);
+    const {user} = useUser()
+    const {openSignIn} = useClerk()
 
     return (
         <>
@@ -28,12 +33,27 @@ export default function Navbar() {
                     ))}
                 </div>
 
-                <button className="hidden md:block px-6 py-2.5 bg-pink-600 hover:bg-pink-700 active:scale-95 transition-all rounded-full">
+                {!user? (<>
+                <button onClick={() => openSignIn()} className="hidden md:block px-6 py-2.5 bg-pink-600 hover:bg-pink-700 active:scale-95 transition-all rounded-full">
                     Start free trial
                 </button>
                 <button onClick={() => setIsOpen(true)} className="md:hidden">
                     <MenuIcon size={26} className="active:scale-90 transition" />
                 </button>
+                </>):(
+                    <div className="flex gap-2">
+                        <button onClick={() => naviagte("/plans")}>Credits: </button>
+                        <UserButton>
+                            <UserButton.MenuItems>
+                                <UserButton.Action label="Generate" labelIcon={<SparkleIcon size={14}/>} onClick={() => naviagte("/generate")}/>
+                                <UserButton.Action label="My Generations" labelIcon={<FolderEditIcon size={14}/>} onClick={() => naviagte("/my-generations")}/>
+                                <UserButton.Action label="Community" labelIcon={<GalleryHorizontalEnd size={14}/>} onClick={() => naviagte("/community")}/>
+                                <UserButton.Action label="Plans" labelIcon={<DollarSignIcon size={14}/>} onClick={() => naviagte("/plans")}/>
+                            </UserButton.MenuItems>
+                        </UserButton>
+                    </div>
+                )}
+                
             </motion.nav>
 
             <div className={`fixed inset-0 z-100 bg-black/40 backdrop-blur flex flex-col items-center justify-center text-lg gap-8 md:hidden transition-transform duration-400 ${isOpen ? "translate-x-0" : "-translate-x-full"}`}>
